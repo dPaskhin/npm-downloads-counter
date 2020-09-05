@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "Npm downloads counter",
+  "version": "1.0.0",
+  "description": "Count total number of downloads of packages on npmjs.com",
+  "browser_action": {
+    "default_icon": {
+      "32": "images/npm-icon-32.png"
+    }
+  },
+  "content_scripts": [{
+    "matches": ["https://www.npmjs.com/package/*"],
+    "js": ["index.js"]
+  }]
+}
