@@ -1,19 +1,34 @@
-import { ITotalDownloads } from './interfaces/ITotalDownloads';
-import { Periods } from './enums/Periods';
+enum Periods {
+  LAST_DAY = 'last-day',
+  LAST_WEEK = 'last-week',
+  LAST_MONTH = 'last-month',
+  LAST_YEAR = 'last-year',
+}
+
+const periodNames = {
+  [Periods.LAST_DAY]: 'Last day',
+  [Periods.LAST_WEEK]: 'Last week',
+  [Periods.LAST_MONTH]: 'Last month',
+  [Periods.LAST_YEAR]: 'Last year',
+};
+
+interface IPeriodDownload {
+  downloads: number;
+  period: Periods;
+}
 
 const packageName = location.pathname.replace(/\/\w+\//, '');
 
-const fetchPackageTotalDownLoads = async (period: Periods = Periods.LAST_YEAR): Promise<ITotalDownloads> => {
+const fetchPackageDownLoads = async (period: Periods): Promise<number> => {
   const response = await fetch(`https://api.npmjs.org/downloads/point/${period}/${packageName}`);
-  const data = await response.json();
-  const downloads = data?.downloads || 0;
+  const responseJson = await response.json();
 
-  console.log({ downloads, period });
+  return responseJson.downloads || 0;
+};
 
-  return { downloads, period };
-}
+const getPeriodNameFromPeriod = (period: Periods) => periodNames[period];
 
-const renderTotalDownloads = (totalDownloads: ITotalDownloads) => {
+const renderTotalDownloads = (periodDownloadList: IPeriodDownload[]) => {
   const $readMe = document.getElementById('readme');
 
   if (!$readMe) {
@@ -28,14 +43,18 @@ const renderTotalDownloads = (totalDownloads: ITotalDownloads) => {
 
   const parser = new DOMParser();
   const $totalDownloadsBlock = parser.parseFromString(`
-    <span class='total-downloads-block'>
-        <span class='total-downloads-block__period'>
-            ${totalDownloads.period}
-        </span>
-        <span class='total-downloads-block__value'>
-            ${totalDownloads.downloads}
-        </span>
-    </span>
+    <div class='total-downloads-block'>
+        ${periodDownloadList.map(periodDownload => `
+          <div class='row'>
+            <span class='period'>
+                ${getPeriodNameFromPeriod(periodDownload.period)}
+            </span>
+            <span class='value'>
+                ${periodDownload.downloads.toLocaleString()}
+            </span>  
+          </div>  
+        `).join(' ')}
+    </div>
   `, 'text/html').body.firstChild;
 
   if (!$totalDownloadsBlock) {
@@ -43,7 +62,17 @@ const renderTotalDownloads = (totalDownloads: ITotalDownloads) => {
   }
 
   $title.appendChild($totalDownloadsBlock);
-}
+};
 
+(async () => {
+  const downloadsFetchList = Object.values(Periods).map(fetchPackageDownLoads);
+  const downloadsList = await Promise.all(downloadsFetchList);
+  const totalDownloads = Object.values(Periods).map<IPeriodDownload>((period, idx) => ({
+    downloads: downloadsList[idx],
+    period,
+  }));
 
-fetchPackageTotalDownLoads().then(renderTotalDownloads);
+  console.log(totalDownloads);
+
+  renderTotalDownloads(totalDownloads);
+})();

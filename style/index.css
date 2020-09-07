@@ -1,0 +1,23 @@
+.total-downloads-block {
+    font-size: 14px;
+    font-weight: normal;
+    border: #ccc 1px solid;
+    max-width: 300px;
+    margin: 10px 0;
+}
+
+.total-downloads-block .row {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.total-downloads-block .row:not(:last-child) {
+    border-bottom: #ccc 1px solid;
+}
+
+.total-downloads-block .value {
+    font-weight: bold;
+}
