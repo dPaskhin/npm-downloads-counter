@@ -44,6 +44,15 @@ const renderTotalDownloads = (periodDownloadList: IPeriodDownload[]) => {
   const parser = new DOMParser();
   const $totalDownloadsBlock = parser.parseFromString(`
     <div class='total-downloads-block'>
+        <div class='row'>
+            <span class='period'>
+                Period    
+            </span>
+            
+            <span class='value'>
+                Count of downloads
+            </span>
+        </div>
         ${periodDownloadList.map(periodDownload => `
           <div class='row'>
             <span class='period'>
