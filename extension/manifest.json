@@ -5,12 +5,12 @@
   "description": "Count total number of downloads of packages on npmjs.com",
   "browser_action": {
     "default_icon": {
-      "32": "images/npm-icon-32.png"
+      "32": "./assets/npm-icon-32.png"
     }
   },
   "content_scripts": [{
     "matches": ["https://www.npmjs.com/package/*"],
-    "js": ["index.js"],
-    "css": ["style/index.css"]
+    "js": ["./dist/index.js"],
+    "css": ["./styles/index.css"]
   }]
 }

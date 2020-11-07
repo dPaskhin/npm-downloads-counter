@@ -1,0 +1,51 @@
+.total-downloads-block {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background-color: #fff;
+    font-size: 14px;
+    font-weight: normal;
+    border: #ccc 1px solid;
+    max-width: 300px;
+    width: 100%;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    box-shadow:  5px 5px 10px 0 rgba(0, 0, 0, 0.3);
+}
+
+.total-downloads-block .row {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.total-downloads-block .row:not(:last-child) {
+    border-bottom: #ccc 1px solid;
+}
+
+.total-downloads-block._minimized {
+    width: auto;
+}
+
+.total-downloads-block._minimized .row:not(:first-child) {
+    display: none;
+}
+
+.total-downloads-block._minimized .reload {
+    display: none;
+}
+
+.total-downloads-block .value {
+    font-weight: bold;
+}
+
+.total-downloads-block .minimize,
+.total-downloads-block .reload {
+    cursor: pointer;
+}
+
+.total-downloads-block .reload {
+    margin-right: 15px;
+}
