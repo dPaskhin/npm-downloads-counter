@@ -1,1 +1,1 @@
-export const getPackageName = (): string => location.pathname.replace(/\/\w+\//, '');
+export const getPackageName = (): string => window.location.pathname.replace(/\/\w+\//, '');

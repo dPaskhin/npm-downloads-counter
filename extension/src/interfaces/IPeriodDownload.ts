@@ -1,6 +1,6 @@
-import { Periods } from '@src/enums/Periods';
+import { Period } from '@src/enums/Period';
 
 export interface IPeriodDownload {
   downloads: number;
-  period: Periods;
+  period: Period;
 }

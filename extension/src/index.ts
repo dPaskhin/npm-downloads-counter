@@ -1,19 +1,20 @@
-import { Periods } from '@src/enums/Periods';
-import { IPeriodDownload } from '@src/interfaces/IPeriodDownload';
-import { fetchPackageDownloads } from '@src/utils/fetchPackageDownloads';
+import { fetchPackageDownloadsByPeriods } from '@src/utils/fetchPackageDownloadsByPeriods';
 import { renderTotalDownloads } from '@src/utils/renderTotalDownloads';
+import { eventHandlers } from '@src/utils/eventHandlers';
 
 const execute = async () => {
-  const downloadsFetchList = Object.values(Periods).map(fetchPackageDownloads);
-  const downloadsList = await Promise.all(downloadsFetchList);
-  const totalDownloads = Object
-    .values(Periods)
-    .map<IPeriodDownload>((period, idx) => ({
-      downloads: downloadsList[idx],
-      period,
-    }));
+  try {
+    const packageDownloadsByPeriods = await Promise.all(fetchPackageDownloadsByPeriods());
 
-  renderTotalDownloads(totalDownloads, execute);
+    renderTotalDownloads(packageDownloadsByPeriods);
+
+    eventHandlers(() => {
+      void execute();
+    });
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
+  }
 };
 
-execute();
+void execute();

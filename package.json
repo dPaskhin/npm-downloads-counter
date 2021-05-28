@@ -2,7 +2,7 @@
   "name": "npm-downloads-counter",
   "version": "0.0.1",
   "scripts": {
-    "build": "webpack --watch"
+    "build": "webpack"
   },
   "repository": "git+https://github.com/MiDovaah/npm-downloads-counter.git",
   "author": "Dmitry Paskhin <d.pasxin@gmail.com>",
