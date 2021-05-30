@@ -6,7 +6,7 @@ export const fetchPackageDownloadsByPeriods = (): Array<Promise<IPeriodDownload>
   const packageName = getPackageName();
 
   return Object.values(Period).map(async (period) => {
-    const response = await fetch(`https://api.npmjs.org/downloadss/point/${period}/${packageName}`);
+    const response = await fetch(`https://api.npmjs.org/downloads/point/${period}/${packageName}`);
     const responseJson = await response.json() as { downloads?: number };
 
     return {
